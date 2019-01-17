@@ -58,5 +58,5 @@ func getUser(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 		w.Write([]byte(err.Error()))
 		log.Println(err.Error())
 	}
-
+	//1
 }
