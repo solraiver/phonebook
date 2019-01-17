@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"errors"
+	"fmt"
 	"github.com/julienschmidt/httprouter"
 	"log"
 	"net/http"
@@ -28,6 +29,7 @@ func main() {
 
 	router := httprouter.New()
 	router.GET("/user/:id", getUser)
+	router.POST("/user", addUser)
 	log.Println("Я запускаюсь")
 	log.Fatal(http.ListenAndServe(":8080", router))
 
@@ -58,5 +60,11 @@ func getUser(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 		w.Write([]byte(err.Error()))
 		log.Println(err.Error())
 	}
-	//1
+}
+
+func addUser(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
+	user := User{}
+	err := json.NewDecoder(r.Body).Decode(&user)
+	fmt.Println(user, err)
+
 }
