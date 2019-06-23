@@ -89,8 +89,12 @@ func updateUser(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 		log.Println(err)
 		return
 	}
-	Users[id] = user
-	log.Println("Пользователь обновлен!")
+	if _, ok := Users[id]; !ok {
+		log.Println("Пользователь не найден!")
+	} else {
+		Users[id] = user
+		log.Println("Пользователь обновлен!")
+	}
 }
 
 func deleteUser(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
