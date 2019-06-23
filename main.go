@@ -18,7 +18,7 @@ var autoincrement int
 
 func main() {
 	autoincrement = 0
-	Users["0"] = User{Firstname: "And", Lastname: "Kuku", Phonenumber: "111"}
+	Users["0"] = User{Firstname: "Ivan", Lastname: "Ivanov", Phonenumber: "02"}
 
 	router := httprouter.New()
 	router.GET("/user/:id", getUser)
