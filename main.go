@@ -18,7 +18,7 @@ var autoincrement int
 
 func main() {
 	autoincrement = 0
-	Users["0"] = User{Firstname: "Ivan", Lastname: "Ivanov", Phonenumber: "02"}
+	//Users["0"] = User{Firstname: "Ivan", Lastname: "Ivanov", Phonenumber: "02"}
 
 	router := httprouter.New()
 	router.GET("/user/:id", getUser)
@@ -49,6 +49,7 @@ func getUser(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 func addUser(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	user := User{}
 	err := json.NewDecoder(r.Body).Decode(&user)
+	log.Println(err, "ТЕЛО")
 	if err != nil {
 		log.Println(err)
 		return
@@ -67,8 +68,9 @@ func deleteUser(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	if !ok {
 		log.Println("Пользователь не найден!")
 		return
+	} else {
+		delete(Users, id)
+		log.Println("Пользователь удален!")
 	}
-
-	delete(Users, id)
 
 }
