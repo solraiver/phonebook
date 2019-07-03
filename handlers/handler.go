@@ -1,39 +1,26 @@
-package main
+package handlers
 
 import (
 	"encoding/json"
 	"github.com/julienschmidt/httprouter"
+	"github.com/solraiver/phonebook/store"
 	"log"
 	"net/http"
 	"strconv"
 )
 
-type User struct {
-	Firstname   string
-	Lastname    string
-	Phonenumber string
+type bookHandler struct {
+	srv store.PhoneBookService
 }
 
-var Users = make(map[string]User)
+func NewBookHandler(s store.PhoneBookService) *bookHandler {
+	return &bookHandler{srv: s}
+}
+
 var autoincrement int
+autoincrement = 0
 
-func main() {
-	autoincrement = 0
-	//Users["0"] = User{Firstname: "Ivan", Lastname: "Ivanov", Phonenumber: "02"}
-
-	router := httprouter.New()
-	router.GET("/user/:id", getUser)
-	router.GET("/user", getUsers)
-	router.POST("/user", addUser)
-	router.DELETE("/user/:id", deleteUser)
-	router.PUT("/user/:id", updateUser)
-
-	log.Println("Я запускаюсь")
-	log.Fatal(http.ListenAndServe(":8080", router))
-
-}
-
-func getUser(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
+func (h bookHandler) getUser(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 
 	id := ps.ByName("id")
 
@@ -51,7 +38,7 @@ func getUser(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	log.Println("Пользователь", user.Firstname)
 }
 
-func getUsers(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
+func (h bookHandler) getUsers(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	user := Users
 	if len(user) == 0 {
 		log.Println("Пользователи не найдены!")
@@ -65,7 +52,7 @@ func getUsers(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	log.Println("Список пользователей!")
 }
 
-func addUser(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
+func (h bookHandler) addUser(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	user := User{}
 	err := json.NewDecoder(r.Body).Decode(&user)
 	if err != nil {
@@ -81,7 +68,7 @@ func addUser(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	autoincrement++
 }
 
-func updateUser(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
+func (h bookHandler) updateUser(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	id := ps.ByName("id")
 	user := User{}
 	err := json.NewDecoder(r.Body).Decode(&user)
@@ -97,7 +84,7 @@ func updateUser(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	}
 }
 
-func deleteUser(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
+func (h bookHandler) deleteUser(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 
 	id := ps.ByName("id")
 	_, ok := Users[id]
