@@ -3,24 +3,24 @@ package handlers
 import (
 	"encoding/json"
 	"github.com/julienschmidt/httprouter"
-	"github.com/solraiver/phonebook/store"
+	"github.com/solraiver/phonebook/entyti"
 	"log"
 	"net/http"
 	"strconv"
 )
 
 type bookHandler struct {
-	srv store.PhoneBookService
+	srv entyti.PhoneBookService
 }
 
-func NewBookHandler(s store.PhoneBookService) *bookHandler {
+func NewBookHandler(s entyti.PhoneBookService) *bookHandler {
 	return &bookHandler{srv: s}
 }
 
-var autoincrement int
-autoincrement = 0
+//var autoincrement int
+//autoincrement = 0
 
-func (h bookHandler) getUser(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
+func (h bookHandler) GetUser(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 
 	id := ps.ByName("id")
 
@@ -38,7 +38,7 @@ func (h bookHandler) getUser(w http.ResponseWriter, r *http.Request, ps httprout
 	log.Println("Пользователь", user.Firstname)
 }
 
-func (h bookHandler) getUsers(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
+/*func (h bookHandler) getUsers(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	user := Users
 	if len(user) == 0 {
 		log.Println("Пользователи не найдены!")
@@ -97,3 +97,4 @@ func (h bookHandler) deleteUser(w http.ResponseWriter, r *http.Request, ps httpr
 	}
 
 }
+*/

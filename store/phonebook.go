@@ -10,10 +10,6 @@ func NewPhoneBook() *phoneBook {
 	return &phoneBook{list: map[string]entyti.User{}}
 }
 
-type PhoneBookService interface {
-	getUser()
-	getUsers()
-	addUser()
-	updateUser()
-	deleteUser()
+func (p phoneBook) GetUser() {
+
 }

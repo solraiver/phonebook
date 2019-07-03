@@ -5,3 +5,7 @@ type User struct {
 	LastName    string
 	PhoneNumber string
 }
+
+type PhoneBookService interface {
+	GetUser()
+}
