@@ -15,6 +15,7 @@ func main() {
 
 	router := httprouter.New()
 	router.GET("/user/:id", hr.GetUser)
+
 	/*router.GET("/user", getUsers)
 	router.POST("/user", addUser)
 	router.DELETE("/user/:id", deleteUser)

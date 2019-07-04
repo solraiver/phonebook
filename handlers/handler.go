@@ -20,8 +20,9 @@ func NewBookHandler(s entyti.PhoneBookService) *bookHandler {
 //autoincrement = 0
 
 func (h bookHandler) GetUser(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
-
+	log.Println("Лог1")
 	id := ps.ByName("id")
+	log.Println("ЭТО БЛЯДЬ АЙДИ", id)
 	user := h.srv.GetUser(id)
 
 	err := json.NewEncoder(w).Encode(user)
