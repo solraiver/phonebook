@@ -6,7 +6,6 @@ import (
 	"github.com/solraiver/phonebook/entyti"
 	"log"
 	"net/http"
-	"strconv"
 )
 
 type bookHandler struct {
@@ -23,19 +22,14 @@ func NewBookHandler(s entyti.PhoneBookService) *bookHandler {
 func (h bookHandler) GetUser(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 
 	id := ps.ByName("id")
-
-	user, ok := Users[id]
-	if !ok {
-		log.Println("Пользователь не найден!")
-		return
-	}
+	user := h.srv.GetUser(id)
 
 	err := json.NewEncoder(w).Encode(user)
 	if err != nil {
-		w.Write([]byte(err.Error()))
+		_, _ = w.Write([]byte(err.Error()))
 		log.Println(err.Error())
 	}
-	log.Println("Пользователь", user.Firstname)
+	log.Println("Пользователь", user)
 }
 
 /*func (h bookHandler) getUsers(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
