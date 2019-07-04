@@ -7,5 +7,5 @@ type User struct {
 }
 
 type PhoneBookService interface {
-	GetUser()
+	GetUser(id string) User
 }

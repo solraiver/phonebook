@@ -13,8 +13,6 @@ func main() {
 	books := store.NewPhoneBook()
 	hr := handlers.NewBookHandler(books)
 
-	books["0"] = User{Firstname: "Ivan", Lastname: "Ivanov", Phonenumber: "02"}
-
 	router := httprouter.New()
 	router.GET("/user/:id", hr.GetUser)
 	/*router.GET("/user", getUsers)
